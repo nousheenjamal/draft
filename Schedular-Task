@@ -1,0 +1,78 @@
+Contents
+1.	Schedulers Features	2
+2.	Implementation of Features	3
+2.1	Create Scheduler	3
+2.2	Delete Scheduler	3
+2.3	Modify Scheduler	3
+2.4 	Error Handing	4
+
+ 
+1.	Schedulers Features
+
+The schedulers will be used to schedule generic tasks.
+The features to be supported are:
+1.	Create schedules:
+a.	Schedules can be of three types:
+i.	Immediate: After 4 hours.    Immediate
+ii.	Recurred: This will be executed in series:
+1.	Daily   --- exclude days
+2.	Weekly --- specific day
+3.	Monthly – specific date
+4.	Yearly
+5.	Specific day
+iii.	Only once execution: At specific date and time.(We can include immediate in this as a option IMMEDIATE)
+b.	Validations supported:
+i.	No schedule within 4hours. 
+ii.	No schedules after 1year.
+iii.	No overlapping schedules.
+c.	Support all time zones.
+d.	Support all products.
+e.	Priority will we support this
+f.	Misfire: Miss due to shutdown ? will we support it 
+2.	Delete Schedules:
+a.	User can delete the schedule, or the series.
+b.	Validation:
+i.	There is no schedule in next 4hrs.
+3.	Modify Schedules:
+a.	User can modify a specific schedule or series.
+b.	Validation:
+i.	There is no schedule in next 4hrs.
+4.	Error Handling/ Jeopardy:
+a.	Capturing failures 
+b.	Retriggering failed schedules immediately or schedule it again.
+5.	Reporting:
+a.	Displaying schedules for specific time period & status with paging.
+b.	Displaying all schedules with paging.
+6.	Notification Emails to the user.
+7.	Pause : Will we support it.
+8.	Search/Filter : Will we su
+9.	pport it 
+ 
+2.	Implementation of Features
+2.1	Create Scheduler
+Schedulers will have following subtasks:
+a.	Scheduler/Schedule Configurer: A Scheduler’s life-cycle is bounded by its creation, via a SchedulerFactory and terminates via call to its shutdown() method. Once created the Scheduler interface can be used to add, remove, and list Jobs and Triggers, and perform other scheduling-related operations .
+b.	Triggers: Trigger objects are used to trigger the execution of Jobs. When we wish to schedule a Job, we need to instantiate a trigger and adjust its properties to configure our scheduling requirements
+c.	Jobs: This object may also contain various property settings for the Job, as well as a JobDataMap, which can be used to store state information for a given instance of our job class.
+d.	Job Map Data : JobDataMap is used to hold any amount of data objects that we wish to make available to the job instance when it executes. JobDataMap is an implementation of the Java Map interface and has some added convenience methods for storing and retrieving data of primitive types
+e.	Cron Triggers : The Cron Trigger is used when we need schedules based on calendar-like statements. For example, we can specify firing-schedules such as every Friday at noon or every weekday at 9:30 am.
+f.	Database:  There will be Tables for entry of each Schedule,Trigger, Job and Cron-Trigger. Job Map data will be stored as part of Trigger in form of Clob/json, later on execution time frame it will be part of Job as well.
+g.	
+h.	Integration with UI
+Flow:
+a.	Whenever the scheduler is submitted from UI it will  have the JSON:
+ 
+ This will have the details of the schedule.
+b.	Time conversion in GMT, irrespective of selection.
+c.	If its cron trigger we need to create cron trigger & cron expression, which will have trigger. Else only trigger will be created in the Database.
+d.	On the specific time the job will be created and executed, to have it generic we need to see reflection or any feasible approach for execution of the task.
+2.2	Delete Scheduler
+1.	Deletion of series: Check no job in next 4hrs, Will update the status of the state of Trigger to deleted.
+2.	Delete one occurrence: Check no job in next 4hrs, this will need updating of Cron expression.
+2.3	Modify Scheduler
+	1.	Check no job in next 4hrs, Updating the Trigger, Cron Triggers.
+2.4 	Error Handing 
+	1.	Job will have column status, exception . This will be updated as part of the Api execution. This can be used as part for displaying error.
+	2.	Rescheduling can be done by creation of new trigger.
+2.5 	Reporting
+1.	Creation of a get method to return the results based on date selection, product selection, Schedule name with the pagging feature.
