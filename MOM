@@ -1,0 +1,3 @@
+1.	I have explained the requirements of scheduler project and implementation of quartez as per document.
+2.	The task assigned to you is to have rest API which fetch scheduler details with search and filter creteria.
+3.	The search criteria as of today is based on dates selection, duration selection(month, week, 6months etc.), product name, scheduler name, scheduler status.
